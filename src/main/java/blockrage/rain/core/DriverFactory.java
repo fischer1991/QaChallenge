@@ -15,8 +15,15 @@ import blockrage.rain.pages.PageGenerator;
 
 public class DriverFactory {
 
+	private static DriverFactory instance = new DriverFactory();
+
+
 	public DriverFactory() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public static DriverFactory getInstance() {
+		return instance;
 	}
 
 	private static WebDriver driver;

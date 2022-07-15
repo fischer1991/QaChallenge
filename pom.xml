@@ -87,6 +87,16 @@
 		  <artifactId>extentreports</artifactId>
 		  <version>4.0.6</version>
 	  </dependency>
+      <dependency>
+          <groupId>org.awaitility</groupId>
+          <artifactId>awaitility</artifactId>
+          <version>4.0.1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.assertj</groupId>
+          <artifactId>assertj-core</artifactId>
+          <version>3.22.0</version>
+      </dependency>
 
 
   </dependencies>

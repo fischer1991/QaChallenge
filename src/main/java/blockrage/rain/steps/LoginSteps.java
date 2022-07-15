@@ -4,7 +4,6 @@ import blockrage.rain.core.DriverFactory;
 import blockrage.rain.core.TipoDriver;
 import blockrage.rain.pages.LogainRainPage;
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -13,21 +12,12 @@ import cucumber.api.java.en.When;
 import org.junit.Assert;
 
 import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
 
 public class LoginSteps extends DriverFactory {
-
-    LogainRainPage loginPage;
-
-    @Before(value = "@loginAtRainPlatform", order = 1)
-    public void before(Scenario cenario) throws Exception {
-
-    }
 
     @Given("^the user is on Tamanna website$")
     public void theUserIsOnTamannaWebsite() throws MalformedURLException, InterruptedException {
         DriverFactory.getDriver(TipoDriver.valueOf("CHROME")).navigate().to("https://www.tamanna.com/");
-
     }
 
     @Given("^set the email into \"([^\"]*)\" input Field$")
@@ -48,6 +38,7 @@ public class LoginSteps extends DriverFactory {
 
     @When("^the user clicks on kids menu$")
     public void clickOnKidsMenu() throws Throwable {
+        challengePage().waitForKidsMenuBeDisplayed();
         challengePage().clickKidsMenuButton();
     }
 
@@ -82,21 +73,14 @@ public class LoginSteps extends DriverFactory {
         challengePage().clickAddToCartButton();
     }
 
-    @And("^the confirmation message is displayed: Added to your shopping bag!$")
+    @And("^the confirmation message is displayed$")
     public void addedToCartConfirmationMessage() throws Throwable {
         challengePage().verifyAddedToCartMessageIsDisplayed();
+        Assert.assertTrue( challengePage().verifyAddedToCartMessageIsDisplayed() == true);
     }
 
     private LogainRainPage challengePage() throws Exception {
         return DriverFactory.page.GetInstance(LogainRainPage.class);
-    }
-
-    @Then("^a session should be create placing the user in the home page$")
-    public void a_session_should_be_create_placing_the_user_in_the_home_page() throws Throwable {
-        //Assert.assertFalse(true, loginPage.validateLogin());
-
-        //Assert.assertTrue( challengePage().validateLogin() == true);
-
     }
 
     @Given("^set a non registered email into \"([^\"]*)\" input Field$")
@@ -104,16 +88,36 @@ public class LoginSteps extends DriverFactory {
         challengePage().writeEmail(email);
     }
 
-    @Then("^the login should not be allowed$")
-    public void the_login_should_not_be_allowed() throws Throwable {
-        Assert.assertTrue(challengePage().invalidLoginValidate() == true);
+    @And("^the user goes to the shopping bag$")
+    public void theUserGoesToTheShoppingBag() throws Throwable {
+        challengePage().clickShoppingBackLink();
     }
 
-
-    @After(value = "@loginAtRainPlatform", order = 1)
-    public void after(Scenario cenario) throws Exception {
-
+    @And("^the quantity of items displayed is: 2$")
+    public void theQuantityOfItemsDisplayedIs() throws Throwable {
+        challengePage().verifyQuantityOfItemsDisplayedIsTwo();
+        Assert.assertTrue( challengePage().verifyQuantityOfItemsDisplayedIsTwo() == true);
     }
 
+    @And("^the total amount displayed is: KWD 91.900$")
+    public void theTotalAmountDisplayed() throws Throwable {
+        challengePage().verifyTotalAmountOfTwoItemsIsDisplayed();
+        Assert.assertTrue( challengePage().verifyTotalAmountOfTwoItemsIsDisplayed() == true);
+    }
 
+    @And("^the user deletes the 2 items on the shopping bag$")
+    public void theUserDeletesTheItemsOnTheCart() throws Exception {
+        challengePage().clickDeleteItemButton();
+        challengePage().verifyQuantityOfItemsDisplayedIsOne();
+        Assert.assertTrue( challengePage().verifyQuantityOfItemsDisplayedIsOne() == true);
+        challengePage().clickDeleteItemButton();
+        challengePage().verifyQuantityOfItemsDisplayedIsZero();
+        Assert.assertTrue( challengePage().verifyQuantityOfItemsDisplayedIsZero() == true);
+    }
+
+    @And("^the user validate the total price is zero$")
+    public void theUserValidateTheTotalPriceIsZero() throws Throwable {
+        challengePage().verifyTotalAmountOfZeroItemsIsDisplayed();
+        Assert.assertTrue( challengePage().verifyTotalAmountOfZeroItemsIsDisplayed() == true);
+    }
 }
