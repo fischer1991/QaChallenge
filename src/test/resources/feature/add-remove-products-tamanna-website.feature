@@ -1,3 +1,4 @@
+#Please run the full feature
 Feature: Add and remove products from shopping bag at Tamanna website
 
   Scenario: Positive Test - Add kids Nike Air Max shoes to the shopping bag
