@@ -14,14 +14,14 @@ Feature: Add and remove products from shopping bag at Tamanna website
     And the user clicks on beauty menu
     And the user clicks on hair menu
     And the user chooses Babyliss Pro Rotating Hot Air Styler
-    And the user clicks Add to Cart button
-    And the confirmation message is displayed
+    When the user clicks Add to Cart button
+    Then the confirmation message is displayed
 
   Scenario: Positive Test - Remove two items from the shopping bag and returns to the home page
     Given the user is on Tamanna website
     And the user goes to the shopping bag
     And the quantity of items displayed is: 2
     And the total amount displayed is: KWD 91.900
-    And the user deletes the 2 items on the shopping bag
-    And the user validate the total price is zero
+    When the user deletes the 2 items on the shopping bag
+    Then the user validate the total price is zero
     And the user clicks on the home page icon
